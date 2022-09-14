@@ -1,0 +1,14 @@
+python-targets: 3
+
+ignore-paths:
+  - manage.py
+  - sgce/wsgi.py
+
+ignore-patterns:
+  - (^|/)migrations(/|$)
+
+pylint:
+  run: true
+  disable:
+    - invalid-encoded-data
+    - old-style-class

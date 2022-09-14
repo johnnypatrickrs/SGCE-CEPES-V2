@@ -1,0 +1,10 @@
+.DS_STORE
+.env
+.vscode
+.idea
+.sgce
+*.sqlite3
+*pyc
+__pycache__
+media
+settings.ini

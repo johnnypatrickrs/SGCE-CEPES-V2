@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block extra-css %}
+<!-- DataTables -->
+<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap4.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/buttons.dataTables.min.css' %}">
+{% endblock %}
+
+{% block content-title %}Usuários{% endblock %}
+{% block content-description %}Página de Administração dos Usuários{% endblock %}
+
+{% block content %}
+<div class="row mb-4 ml-0 justify-content-center">
+  {% if perms.auth.add_user %}
+    <a class="btn btn-success" href="{% url 'accounts:user-create' %}" role="button">Novo Usuário</a>
+  {% else %}
+    <a class="btn btn-secondary" style="cursor: not-allowed;" href="{% url 'accounts:user-create' %}" role="button" title="Você não tem permissão para criar um usuário." disabled>Novo Usuário</a>
+  {% endif %}
+</div>
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-info" role="alert">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+<div class="row">
+  <table id="tableList" class="table table-bordered table-striped">
+    <thead>
+    <tr>
+      <th>Nível de Acesso</th>
+      <th>Nome</th>
+      <th>Email</th>
+      <th>Ativo?</th>
+      <th>Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for user in users %}
+      <tr>
+        <td>{% if user.is_superuser %}Administrador{% else %}Usuário{% endif %}</td>
+        <td>{{ user.get_full_name }}</td>
+        <td>{{ user.email }} </td>
+        <td>
+          {% if user.is_active %}
+            <i class="fas fa-check-circle" style="color: green;"></i>
+          {% else %}
+            <i class="fas fa-times-circle" style="color: red;"></i>
+          {% endif %}
+        </td>
+        <td>
+          {% if perms.auth.change_user %}
+            {% with active=user.is_active %}
+            <a href="{% url 'accounts:user-update' user.pk %}" class="fas fa-edit fa-sm" title="Editar"></a>
+            {% endwith %}
+          {% endif %}
+          {% if perms.accounts.can_enable_or_disable_user %}
+            {% with active=user.is_active %}
+            | <a href="{% url 'accounts:user-active-or-disable' user.pk %}" class="fa fa-{% if active %}trash-alt{% else %}check{% endif %} fa-sm" title="{% if active %}Desabilitar{% else %}Habilitar{% endif %}"></a>
+            {% endwith %}
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+    <tfoot>
+    <tr>
+      <th>Nível de Acesso</th>
+      <th>Nome</th>
+      <th>Email</th>
+      <th>Ativo?</th>
+      <th>Ações</th>
+    </tr>
+    </tfoot>
+  </table>
+</div>
+{% endblock %}
+
+{% block extra-js %}
+<script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'js/dataTables.buttons.min.js' %}"></script>
+<script>
+  $(function () {
+    $('#tableList').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : true,
+      'language': {
+        "sEmptyTable": "Nenhum registro encontrado",
+        "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+        "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+        "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+        "sInfoPostFix": "",
+        "sInfoThousands": ".",
+        "sLengthMenu": "_MENU_ resultados por página",
+        "sLoadingRecords": "Carregando...",
+        "sProcessing": "Processando...",
+        "sZeroRecords": "Nenhum registro encontrado",
+        "sSearch": "Pesquisar",
+        "oPaginate": {
+            "sNext": "Próximo",
+            "sPrevious": "Anterior",
+            "sFirst": "Primeiro",
+            "sLast": "Último"
+        },
+        "oAria": {
+            "sSortAscending": ": Ordenar colunas de forma ascendente",
+            "sSortDescending": ": Ordenar colunas de forma descendente"
+        },
+      },
+    })
+  })
+</script>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load bootstrap4 %}
+
+{% block content %}
+  {% if messages %}
+    <div class="row justify-content-center">
+    {% for message in messages %}
+      <div class="alert alert-danger" role="alert">
+        {{ message }}
+      </div>
+    {% endfor %}
+    </div>
+  {% endif %}
+  <div class="row justify-content-center">
+    <div class="col-md-10">
+      <form {% block form-attrs %}{% endblock %} method="post" enctype="multipart/form-data">{% csrf_token %}
+        {% bootstrap_form form layout='group' %}
+        {% buttons %}
+          <a href="{% block link-back %}%{% endblock %}" class="btn btn-dark" value="Voltar">Voltar</a>
+          <button type="submit" class="btn btn-success">{% block submit-button %}Salvar{% endblock %}</button>
+        {% endbuttons %}
+      </form>
+    </div>
+  </div>
+{% endblock %}
