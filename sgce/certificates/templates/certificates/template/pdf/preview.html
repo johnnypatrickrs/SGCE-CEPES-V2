@@ -6,6 +6,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" href="{% static 'certificates/css/' %}{{ template.font }}.css" />
+        
         <style>
 
             @page{
@@ -68,6 +69,8 @@
             .backside-content {
                 font-size:11.5pt;
             }
+
+
         </style>
         <!-- 297mm x 210mm -->
     </head>
@@ -92,29 +95,62 @@
             <div style="text-align:center">
                 <p>{{ template.location}}, {{template.created_at|date:"d"}} de {{ template.created_at|date:"F"}} de {{template.created_at|date:"Y"}}</p>
             </div>
-           <br> 
-            <div>
-                <table style="border:solid 0px #000; padding-top: 10px;">
-               
-                    <tr>
-                        <th><img src="{{ template.ass_manager.url }}" style="width:200px; float:right; padding-top:1px;"></th>
-                        <th><img src="{{ template.ass_coordinator.url }}" style="width:200px; float:left; padding-top:1px;"></th>
-                    </tr>
-                
-                    <tr>
-                        <th> <h4 style="width: max-content; padding-top:1px; padding-bottom:1px;">{{ template.name_manager }}</h4></th>
-                        <th><h4 style="width: max-content; padding-top:1px; padding-bottom:1px;">{{ template.name_coordinator }}</h4></th>
-                    </tr>
-                    <tr>
-                        <th><h6 style="width: max-content; padding-top:1px; padding-bottom:1px;">{{ template.pos_manager }}</h6></th>
-                        <th><h6 style="width: max-content; padding-top:1px; padding-bottom:1px;">{{ template.pos_coordinator }}</h6></th>
-                    </tr>
+        
             
+            <div style="text-align:center;">
+
+                <table>
+
+                    
+                      <tr>
+                        <td >
+                           
+                        </td>
+                        <td style=" padding-top: 5px;">
+                            <img src="{{ template.ass_manager.url }}" style="width:200px; float:right">
+                        </td>
+                        <td>
+                            
+                        </td>
+                        <td style=" padding-top: 2px;">
+                            <img src="{{ template.ass_coordinator.url }}" style="width:200px; float:left">
+                        
+                                
+                        </td>
+                      </tr>
+                      <tr >
+                        <td>
+                           
+                        </td>
+                        <td style="padding-top: 5px; padding-bottom: 2px;">
+                           
+                            <h4 style="padding-top: -25px">{{ template.name_manager }}<br>
+                                {{ template.pos_manager }}
+                            </h4>
+                            
+                        </td>
+                        <td>
+                           
+                        </td>
+                        <td style="padding-top: 2px;">
+                            
+                        
+                                 <h4 style="padding-top: -25px">{{ template.name_coordinator }}<br>
+                                    {{ template.pos_coordinator }}
+                                </h4>
+                                 
+                        </td>
+                      </tr>
+                      
+                      
+                    
+                    
                 </table>
+               
+                
             </div>
         </div>
-        
-        
+        <br>
         <div class="footer"
              style="padding-top: {{ template.footer_title_distance }} - cm;
                     float: {{ template.footer_section_align }};
